@@ -61,13 +61,15 @@ def index():
     files = {}
     dirs = [f for f in listdir(folder_path) if os.path.isdir(os.path.join(folder_path, f))]
     for director in dirs:
-        files[director] = [f for f in listdir(folder_path + director) if os.path.isfile(os.path.join(folder_path + director, f))]
+        files[director] = sorted([f for f in listdir(folder_path + director) if os.path.isfile(os.path.join(folder_path + director, f))])
+
+    sorted_files = dict(sorted(files.items()))
 
     if request.method == 'POST':
         if 'add_music' in request.form and ".." not in request.form['add_music']:
             var.playlist.append(request.form['add_music'])
         if 'add_folder' in request.form and ".." not in request.form['add_folder']:
-            dir_files = [request.form['add_folder'] + '/' + i for i in files[request.form['add_folder']]]
+            dir_files = [request.form['add_folder'] + '/' + i for i in sorted_files[request.form['add_folder']]]
             var.playlist.extend(dir_files)
         elif 'delete_music' in request.form:
             try:
@@ -87,7 +89,7 @@ def index():
                            current_music=current_music,
                            user=var.user,
                            playlist=var.playlist,
-                           all_files=files)
+                           all_files=sorted_files)
 
 
 @web.route('/download', methods=["POST"])
