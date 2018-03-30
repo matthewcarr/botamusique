@@ -196,7 +196,7 @@ class MumbleBot:
 
 
 def start_web_interface():
-    interface.web.run(port=8181, host="0.0.0.0")
+    interface.web.run(port=8181, host="127.0.0.1")
 
 
 if __name__ == '__main__':
