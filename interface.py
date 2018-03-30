@@ -76,7 +76,7 @@ def index():
                 pass
         elif 'action' in request.form:
             action = request.form['action']
-            if action == "randomize":
+            if action == "randomise":
                 random.shuffle(var.playlist)
     if var.current_music:
         current_music = var.current_music[len(var.music_folder):]

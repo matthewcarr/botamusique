@@ -56,7 +56,7 @@ class MumbleBot:
         self.mumble.start()  # start the mumble thread
         self.mumble.is_ready()  # wait for the connection
         self.set_comment()
-        self.mumble.users.myself.unmute()  # by sure the user is not muted
+        self.mumble.users.myself.unmute()  # be sure the user is not muted
         if self.channel:
             self.mumble.channels.find_by_name(self.channel).move_in()
         self.mumble.set_bandwidth(200000)
@@ -64,11 +64,11 @@ class MumbleBot:
         self.loop()
 
     def ctrl_caught(self, signal, frame):
-        print("\ndeconnection asked")
+        print("\nInterrupt Received, Stopping")
         self.exit = True
         self.stop()
         if self.nb_exit > 1:
-            print("Forced Quit")
+            print("Forced Kill")
             sys.exit(0)
         self.nb_exit += 1
 
