@@ -88,9 +88,7 @@ class MumbleBot:
 
             if command == self.config.get('command', 'play_file') and parameter:
                 path = self.config.get('bot', 'music_folder') + parameter
-                if "/" in parameter:
-                    self.mumble.users[text.actor].send_message(self.config.get('strings', 'bad_file'))
-                elif os.path.isfile(path):
+                if os.path.isfile(path):
                     self.launch_play_file(path)
                 else:
                     self.mumble.users[text.actor].send_message(self.config.get('strings', 'bad_file'))
