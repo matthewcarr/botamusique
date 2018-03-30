@@ -127,13 +127,22 @@ class MumbleBot:
                 else:
                     self.mumble.users[text.actor].send_message(self.config.get('strings', 'not_playing'))
 
-            elif command == self.config.get('command', 'list'):
-                folder_path = self.config.get('bot', 'music_folder')
-                files = [f for f in listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
-                if files:
-                    self.mumble.users[text.actor].send_message('<br>'.join(files))
+            elif command == self.config.get('command', 'list') and parameter: # list files in subfolder
+                folder_path = self.config.get('bot', 'music_folder') + parameter
+                if os.path.isdir(folder_path):
+                    files = sorted([f for f in listdir(folder_path)])
+                    if len(files) > 20 :
+                        for x in range(0, len(files), 20):
+                            self.mumble.users[text.actor].send_message('<br>'.join(files[x:x+20]))
+                    else:
+                        self.mumble.users[text.actor].send_message('<br>'.join(files))
                 else:
-                    self.mumble.users[text.actor].send_message(self.config.get('strings', 'no_file'))
+                    self.mumble.users[text.actor].send_message(self.config.get('strings', 'no_dir'))
+
+            elif command == self.config.get('command', 'list'): # list subfolders
+                folder_path = self.config.get('bot', 'music_folder')
+                dirs = [f for f in listdir(folder_path) if os.path.isdir(os.path.join(folder_path, f))]
+                self.mumble.users[text.actor].send_message('<br>'.join(dirs))
 
             elif command == self.config.get('command', 'skip'):
                 if (len(var.playlist) == 0):
