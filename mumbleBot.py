@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import threading
 
 import time
@@ -152,7 +152,7 @@ class MumbleBot:
             ffmpeg_debug = "debug"
         else:
             ffmpeg_debug = "warning"
-        command = ["ffmpeg", '-v', ffmpeg_debug, '-nostdin', '-i', path, '-ac', '1', '-f', 's16le', '-ar', '48000', '-']
+        command = ["ffmpeg", '-v', ffmpeg_debug, '-nostdin', '-i', path, '-filter:a', 'loudnorm', '-ac', '1', '-f', 's16le', '-ar', '48000', '-']
         self.thread = sp.Popen(command, stdout=sp.PIPE, bufsize=480)
         var.current_music = path
 
