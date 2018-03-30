@@ -87,6 +87,10 @@ class MumbleBot:
             print(command + ' - ' + parameter + ' by ' + self.mumble.users[text.actor]['name'])
 
             if command == self.config.get('command', 'play_file') and parameter:
+                if ".." in parameter:
+                    self.send_msg_channel(self.config.get('strings', 'naughty') % (
+                        self.mumble.users[text.actor]['name']))
+                    return
                 path = self.config.get('bot', 'music_folder') + parameter
                 if os.path.isfile(path):
                     self.launch_play_file(path)
@@ -128,6 +132,11 @@ class MumbleBot:
                     self.mumble.users[text.actor].send_message(self.config.get('strings', 'not_playing'))
 
             elif command == self.config.get('command', 'list') and parameter: # list files in subfolder
+                if ".." in parameter:
+                    self.send_msg_channel(self.config.get('strings', 'naughty') % (
+                        self.mumble.users[text.actor]['name']))
+                    return
+
                 folder_path = self.config.get('bot', 'music_folder') + parameter
                 if os.path.isdir(folder_path):
                     files = sorted([f for f in listdir(folder_path)])
