@@ -168,6 +168,7 @@ class MumbleBot:
                 else:
                     time.sleep(0.1)
             else:
+                raw_music = 0
                 time.sleep(0.1)
 
             if (self.thread is None or not raw_music) and len(var.playlist) != 0:
