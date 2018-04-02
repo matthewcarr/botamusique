@@ -92,8 +92,8 @@ def index():
                            all_files=sorted_files)
 
 
-@web.route('/download', methods=["POST"])
-def download():
+@web.route('/upload', methods=["POST"])
+def upload():
     print(request.form)
 
     file = request.files['music_file']

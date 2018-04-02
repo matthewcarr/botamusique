@@ -1,0 +1,9 @@
+body {
+    background-color: 0f0f0f;
+}
+
+input[type="submit"] {
+    background-color: LightSkyBlue;
+    border: none;
+    padding: 4px 8px;
+}
