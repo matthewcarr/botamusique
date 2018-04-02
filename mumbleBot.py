@@ -157,9 +157,6 @@ class MumbleBot:
                 if (len(var.playlist) == 0):
                     self.stop()
                 else: 
-                    if self.thread:
-                        self.thread.kill()
-                        self.thread = None
                     var.current_music = var.playlist[0]
                     var.playlist.pop(0)
                     self.launch_play_file()
@@ -183,6 +180,9 @@ class MumbleBot:
         else:
             ffmpeg_debug = "warning"
         command = ["ffmpeg", '-v', ffmpeg_debug, '-nostdin', '-i', path, '-filter:a', 'loudnorm=i=-15:lra=12', '-ac', '1', '-f', 's16le', '-ar', '48000', '-']
+        if self.thread:
+            self.thread.kill()
+            self.thread = None
         self.thread = sp.Popen(command, stdout=sp.PIPE, bufsize=480)
         var.current_music = path
 
