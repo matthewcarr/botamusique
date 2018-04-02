@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import threading
 
+import threading
 import time
 import sys
 import signal
@@ -127,7 +127,9 @@ class MumbleBot:
 
             elif command == self.config.get('command', 'current_music'):
                 if var.current_music is not None:
-                    self.send_msg_channel(var.current_music)
+                    now_playing = var.current_music.replace(var.music_folder, "./") # hide full path from users
+                    self.send_msg_channel(now_playing)
+
                 else:
                     self.mumble.users[text.actor].send_message(self.config.get('strings', 'not_playing'))
 
@@ -190,7 +192,7 @@ class MumbleBot:
         while not self.exit:
 
             while self.mumble.sound_output.get_buffer_size() > 0.5: # wait for buffer to be used up
-                time.sleep(0.05)
+                time.sleep(0.01)
             if self.thread: # read from thread if present
                 raw_music = self.thread.stdout.read(480)
                 if raw_music: # if thread had output i.e. pcm audio
