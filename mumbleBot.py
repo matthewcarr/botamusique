@@ -180,7 +180,7 @@ class MumbleBot:
         else:
             ffmpeg_debug = "warning"
         command = ["ffmpeg", '-v', ffmpeg_debug, '-nostdin', '-i', path, '-filter:a', 'loudnorm=i=-15:lra=12', '-ac', '1', '-f', 's16le', '-ar', '48000', '-']
-        if self.thread:
+        if self.thread: # make sure old thread is gone first
             self.thread.kill()
             self.thread = None
         self.thread = sp.Popen(command, stdout=sp.PIPE, bufsize=480)
@@ -189,12 +189,12 @@ class MumbleBot:
     def loop(self):
         while not self.exit:
 
-            while self.mumble.sound_output.get_buffer_size() > 0.5:
-                time.sleep(0.01)
-            if self.thread:
+            while self.mumble.sound_output.get_buffer_size() > 0.5: # wait for buffer to be used up
+                time.sleep(0.05)
+            if self.thread: # read from thread if present
                 raw_music = self.thread.stdout.read(480)
-                if raw_music:
-                    self.mumble.sound_output.add_sound(audioop.mul(raw_music, 2, self.volume))
+                if raw_music: # if thread had output i.e. pcm audio
+                    self.mumble.sound_output.add_sound(audioop.mul(raw_music, 2, self.volume)) # add it to the buffer
                 else:
                     time.sleep(0.1)
             else:
