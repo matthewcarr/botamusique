@@ -31,18 +31,18 @@
 <h2>Playlist:</h2>
 <form method="post"><input type=text value="randomise" name="action" hidden><input type="submit" value="Shuffle Playlist"></form>
 <ul>
-{% for m in playlist %}    <li>{{ m }}<form method="post"><input type=text value="{{ m }}" name="delete_music" hidden><input type="submit" value="X"></form></li>
+{% for m in playlist %}    <li>./{{ m }}<form method="post"><input type=text value="{{ m }}" name="delete_music" hidden><input type="submit" value="X"></form></li>
 {% endfor %}</ul>{% endif %}
 </div>
 
 <br>{% endif %}
 
 <div id="browser">{% for dir in all_files %}
-<h2>./{{ dir }}/</h2><form method="post"><input type=text value={{ dir }} name="add_folder" hidden><input type="submit" value="Add Entire Folder"></form>
+<details><summary><h2>./{{ dir }}/</h2><form method="post"><input type=text value={{ dir }} name="add_folder" hidden><input type="submit" value="Add Entire Folder"></form></summary>
 <ul>
 {% for m in all_files[dir] %}    <li><form method="post"><input type=text value="{{ dir }}/{{ m }}" name="add_music" hidden><input type="submit" value="{{ m }}"></form></li>
 {% endfor %}</ul>
-<br>{% endfor %}
+</details><br>{% endfor %}
 </div>
 
 </body>

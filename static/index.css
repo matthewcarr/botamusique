@@ -7,3 +7,7 @@ input[type="submit"] {
     border: none;
     padding: 4px 8px;
 }
+
+h2 {
+    display: inline;
+}
