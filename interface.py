@@ -7,7 +7,6 @@ from os import listdir
 import random
 from werkzeug.utils import secure_filename
 
-
 class ReverseProxied(object):
     '''Wrap the application in this middleware and configure the
     front-end server to add these headers, to let you quietly bind
@@ -45,15 +44,12 @@ class ReverseProxied(object):
             environ['REMOTE_ADDR'] = real_ip
         return self.app(environ, start_response)
 
-
 web = Flask(__name__)
-
 
 def init_proxy():
     global web
     if var.is_proxified:
         web.wsgi_app = ReverseProxied(web.wsgi_app)
-
 
 @web.route("/", methods=['GET', 'POST'])
 def index():
@@ -91,7 +87,6 @@ def index():
                            playlist=var.playlist,
                            all_files=sorted_files)
 
-
 @web.route('/upload', methods=["POST"])
 def upload():
     print(request.form)
@@ -112,7 +107,6 @@ def upload():
         return redirect("./", code=302)
     else:
         return redirect("./", code=409)
-
 
 if __name__ == '__main__':
     web.run(port=8181, host="127.0.0.1")

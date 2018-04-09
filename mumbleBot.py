@@ -14,7 +14,6 @@ import pymumble.pymumble_py3 as pymumble
 import interface
 import variables as var
 
-
 class MumbleBot:
     def __init__(self):
         signal.signal(signal.SIGINT, self.ctrl_caught)
@@ -189,6 +188,7 @@ class MumbleBot:
         var.current_music = path
 
     def loop(self):
+        raw_music = 0
         while not self.exit:
 
             while self.mumble.sound_output.get_buffer_size() > 0.5: # wait for buffer to be used up
@@ -200,24 +200,26 @@ class MumbleBot:
                 else:
                     time.sleep(0.1)
             else:
-                raw_music = 0
                 time.sleep(0.1)
 
-            if (self.thread is None or not raw_music) and len(var.playlist) != 0:
-                var.current_music = var.playlist[0]
-                var.playlist.pop(0)
-                self.launch_play_file()
+            if self.thread is None or not raw_music: # when nothing is playing
+                if len(var.playlist) != 0: # play next track if there is a list
+                    var.current_music = var.playlist[0]
+                    var.playlist.pop(0)
+                    self.launch_play_file()
+                else:
+                    self.stop() # clean up the old thread and current_msuic at end of playlist
 
         while self.mumble.sound_output.get_buffer_size() > 0:
             time.sleep(0.01)
         time.sleep(0.5)
 
     def stop(self):
+        var.current_music = None
+        var.playlist = []
         if self.thread:
-            var.current_music = None
             self.thread.kill()
             self.thread = None
-            var.playlist = []
 
     def set_comment(self):
         self.mumble.users.myself.comment(self.config.get('bot', 'comment'))
@@ -227,10 +229,8 @@ class MumbleBot:
             channel = self.mumble.channels[self.mumble.users.myself['channel_id']]
         channel.send_text_message(msg)
 
-
 def start_web_interface():
     interface.web.run(port=8181, host="127.0.0.1")
-
 
 if __name__ == '__main__':
     botamusique = MumbleBot()
