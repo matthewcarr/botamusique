@@ -19,7 +19,7 @@ class MumbleBot:
         signal.signal(signal.SIGINT, self.ctrl_caught)
 
         self.config = configparser.ConfigParser(interpolation=None)
-        self.config.read("configuration.ini", encoding='latin-1')
+        self.config.read("configuration.ini", encoding='utf-8')
 
         parser = argparse.ArgumentParser(description='Bot for playing audio files on Mumble')
         parser.add_argument("-s", "--server", dest="host", type=str, required=True, help="The hostame of a mumble server")
