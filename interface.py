@@ -78,6 +78,8 @@ def index():
                 random.shuffle(var.playlist)
             elif action == "clear":
                 var.playlist = []
+            elif action == "priorityplay":
+                var.playlist.insert(0, var.playlist.pop())
     if var.current_music:
         current_music = var.current_music[len(var.music_folder):]
     else:

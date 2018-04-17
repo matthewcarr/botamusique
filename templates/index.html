@@ -31,6 +31,7 @@
 <h2>Playlist:</h2>
 <form method="post"><input type=text value="randomise" name="action" hidden><input type="submit" value="Shuffle Playlist"></form>
 <form method="post"><input type=text value="clear" name="action" hidden><input type="submit" value="Clear Playlist"></form>
+<form method="post"><input type=text value="priorityplay" name="action" hidden><input type="submit" value="Move Song from End of Playlist to Next Up"></form>
 <ul>
 {% for m in playlist %}    <li>./{{ m }}<form method="post"><input type=text value="{{ m }}" name="delete_music" hidden><input type="submit" value="X"></form></li>
 {% endfor %}</ul>{% endif %}
