@@ -158,8 +158,7 @@ class MumbleBot:
                 if (len(var.playlist) == 0):
                     self.stop()
                 else: 
-                    var.current_music = var.playlist[0]
-                    var.playlist.pop(0)
+                    var.current_music = var.playlist.pop(0)
                     self.launch_play_file()
 
             else:
@@ -204,8 +203,7 @@ class MumbleBot:
 
             if self.thread is None or not raw_music: # when nothing is playing
                 if len(var.playlist) != 0: # play next track if there is a list
-                    var.current_music = var.playlist[0]
-                    var.playlist.pop(0)
+                    var.current_music = var.playlist.pop(0)
                     self.launch_play_file()
                 else:
                     self.stop() # clean up the old thread and current_msuic at end of playlist
