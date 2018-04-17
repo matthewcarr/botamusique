@@ -21,12 +21,12 @@ class MumbleBot:
         self.config = configparser.ConfigParser(interpolation=None)
         self.config.read("configuration.ini", encoding='latin-1')
 
-        parser = argparse.ArgumentParser(description='Bot for playing radio stream on Mumble')
-        parser.add_argument("-s", "--server", dest="host", type=str, required=True, help="The server's hostame of a mumble server")
-        parser.add_argument("-u", "--user", dest="user", type=str, required=True, help="Username you wish, Default=abot")
+        parser = argparse.ArgumentParser(description='Bot for playing audio files on Mumble')
+        parser.add_argument("-s", "--server", dest="host", type=str, required=True, help="The hostame of a mumble server")
+        parser.add_argument("-u", "--user", dest="user", type=str, required=True, help="Username for the bot", default="botamusique")
         parser.add_argument("-P", "--password", dest="password", type=str, default="", help="Password if server requires one")
-        parser.add_argument("-p", "--port", dest="port", type=int, default=64738, help="Port for the mumble server")
-        parser.add_argument("-c", "--channel", dest="channel", type=str, default="", help="Default chanel for the bot")
+        parser.add_argument("-p", "--port", dest="port", type=int, default=64738, help="Port of the mumble server")
+        parser.add_argument("-c", "--channel", dest="channel", type=str, default="", help="Starting channel for the bot")
 
         args = parser.parse_args()
         self.volume = self.config.getfloat('bot', 'volume')
