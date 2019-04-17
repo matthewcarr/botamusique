@@ -57,7 +57,7 @@ def index():
     files = {}
     dirs = [f for f in listdir(folder_path) if os.path.isdir(os.path.join(folder_path, f))]
     for director in dirs:
-        files[director] = sorted([f for f in listdir(folder_path + director) if os.path.isfile(os.path.join(folder_path + director, f))])
+        files[director] = sorted([f for f in listdir(folder_path + director) if os.path.isfile(os.path.join(folder_path + director, f))], key=str.lower)
 
     sorted_files = dict(sorted(files.items()))
 
