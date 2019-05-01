@@ -40,6 +40,7 @@
 <br>{% endif %}
 
 <div id="browser">{% for dir in all_files %}
+<form method="post"><input type=text name="play_all" hidden><input type="submit" value="Shuffle All Songs"></form>
 <details><summary><h2>./{{ dir }}/</h2><form method="post"><input type=text value={{ dir }} name="add_folder" hidden><input type="submit" value="Add Entire Folder"></form><form method="post"><input type=text value={{ dir }} name="add_shuffled" hidden><input type="submit" value="Add Entire Folder Shuffled"></form></summary>
 <ul>
 {% for m in all_files[dir] %}    <li><form method="post"><input type=text value="{{ dir }}/{{ m }}" name="add_music" hidden><input type="submit" value="{{ m }}"></form></li>

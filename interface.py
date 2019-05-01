@@ -71,6 +71,12 @@ def index():
             dir_files = [request.form['add_shuffled'] + '/' + i for i in sorted_files[request.form['add_shuffled']]]
             random.shuffle(dir_files)
             var.playlist.extend(dir_files)
+        if 'play_all' in request.form:
+            var.playlist = []
+            for dir in sorted_files:
+                dir_files = [dir + '/' + i for i in sorted_files[dir]]
+                var.playlist.extend(dir_files)
+            random.shuffle(var.playlist)
         elif 'delete_music' in request.form:
             try:
                 var.playlist.remove(request.form['delete_music'])
