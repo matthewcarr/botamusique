@@ -36,6 +36,8 @@ class MumbleBot:
         var.playlist = []
         var.user = args.user
         var.music_folder = self.config.get('bot', 'music_folder')
+        var.filters = self.config['filters']
+        var.filter_select = self.config.get('bot', 'filter')
         var.is_proxified = self.config.getboolean("bot", "is_proxified")
         self.exit = False
         self.nb_exit = 0
@@ -124,6 +126,15 @@ class MumbleBot:
                 else:
                     self.send_msg_channel(self.config.get('strings', 'current_volume') % int(self.volume * 100))
 
+            elif command == self.config.get('command', 'filters'):
+                if parameter is not None and parameter in var.filters:
+                    var.filter_select = parameter
+                    self.send_msg_channel(self.config.get('strings', 'change_filter') % (
+                        var.filter_select, self.mumble.users[text.actor]['name']))
+                else:
+                    self.send_msg_channel(self.config.get('strings', 'current_filter') % (
+                        var.filter_select, ', '.join(var.filters)))
+
             elif command == self.config.get('command', 'current_music'):
                 if var.current_music is not None:
                     now_playing = var.current_music.replace(var.music_folder, "./") # hide full path from users
@@ -179,7 +190,7 @@ class MumbleBot:
             ffmpeg_debug = "debug"
         else:
             ffmpeg_debug = "warning"
-        command = ["ffmpeg", '-v', ffmpeg_debug, '-nostdin', '-i', path, '-filter:a', 'loudnorm=i=-15:lra=12', '-ac', '1', '-f', 's16le', '-ar', '48000', '-']
+        command = ["ffmpeg", '-v', ffmpeg_debug, '-nostdin', '-i', path, '-filter:a', var.filters[var.filter_select], '-ac', '1', '-f', 's16le', '-ar', '48000', '-']
         if self.thread: # make sure old thread is gone first
             self.thread.kill()
             self.thread = None
