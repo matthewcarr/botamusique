@@ -172,6 +172,15 @@ class MumbleBot:
                     var.current_music = var.playlist.pop(0)
                     self.launch_play_file()
 
+            elif command == self.config.get('command', 'texttospeech') and parameter:
+                if len(parameter) > int(self.config.get('bot', 'tts_limit')): # over 1000 chars
+                    self.mumble.users[text.actor].send_message(self.config.get('strings', 'tts_longtext') % (
+                        int(self.config.get('bot', 'tts_limit'))))
+                else:
+                    tts_process = sp.run(["text2wave", "-F 44100 -o", self.config.get('bot', 'music_folder') + self.config.get('bot', 'tts_folder') + "/" + self.mumble.users[text.actor]['name']], input = parameter, text = True))
+                    self.mumble.users[text.actor].send_message(self.config.get('strings', 'tts_success') % (
+                        self.config.get('bot', 'tts_folder'), self.mumble.users[text.actor]['name']))
+
             else:
                 self.mumble.users[text.actor].send_message(self.config.get('strings', 'bad_command'))
 
