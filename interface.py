@@ -113,7 +113,7 @@ def upload():
     elif '..' in request.form['directory']:
         return redirect("./", code=406)
 
-    if file.name == "music_file" and "audio" in file.headers.to_list()[1][1]:
+    if file.name == "music_file" and "audio" in file.mimetype:
         web.config['UPLOAD_FOLDER'] = var.music_folder + request.form['directory']
         filename = secure_filename(file.filename)
         filename = filename.replace("_", " ")
